@@ -13,7 +13,7 @@ function json_ccp {
         -e "s/\${CAPORT}/$4/" \
         -e "s#\${PEERPEM}#$PP#" \
         -e "s#\${CAPEM}#$CP#" \
-        ccp-template.json 
+        ccp-template.json
 }
 
 function yaml_ccp {

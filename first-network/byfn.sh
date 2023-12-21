@@ -261,7 +261,7 @@ function upgradeNetwork() {
       docker-compose $COMPOSE_FILES up -d --no-deps $PEER
     done
 
-    docker exec cli sh -c "SYS_CHANNEL=$CH_NAME && scripts/upgrade_to_v14.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE"    
+    docker exec cli sh -c "SYS_CHANNEL=$CH_NAME && scripts/upgrade_to_v14.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE"
     if [ $? -ne 0 ]; then
       echo "ERROR !!!! Test failed"
       exit 1
@@ -360,8 +360,8 @@ function generateCerts() {
   fi
   set -x
   cryptogen generate --config=./crypto-config.yaml
-  res=$?
-  set +x
+  res=$?  # 获取执行上一个指令的返回值
+  set +x  # stop debugging from here
   if [ $res -ne 0 ]; then
     echo "Failed to generate certificates..."
     exit 1
@@ -595,9 +595,9 @@ if [ "${MODE}" == "up" ]; then
 elif [ "${MODE}" == "down" ]; then ## Clear the network
   networkDown
 elif [ "${MODE}" == "generate" ]; then ## Generate Artifacts
-  generateCerts
-  replacePrivateKey
-  generateChannelArtifacts
+  generateCerts     ## 生成证书
+  replacePrivateKey ## 替换CA证书
+  generateChannelArtifacts ## 创建创世区块和anchor 锚节点
 elif [ "${MODE}" == "restart" ]; then ## Restart the network
   networkDown
   networkUp
