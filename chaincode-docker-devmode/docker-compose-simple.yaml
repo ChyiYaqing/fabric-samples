@@ -37,8 +37,10 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start --peer-chaincodedev=true
     ports:
-      - 7051:7051
-      - 7053:7053
+      - 7051:7051   # peer.listenAddress
+      # The endpoint this peer uses to listen for inbound chaincode connections.
+      #- 7052:7052  # peer.chaincodeAddress
+      - 7053:7053   # Port 7053 is the default port for the event hub service which can be used by client to subscribe to subscribe to block and chaincode events.
     depends_on:
       - orderer
 
